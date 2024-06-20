@@ -1,14 +1,13 @@
 import Layout from "@/components/Layout";
-import CampaignForm from "@/components/CampaignForm";
+import CampaignForm from "@/components/campaign-form/index";
 import axios from "axios";
 import { useState } from "react";
 import Modal from "@/components/Modal";
+import { toast } from "react-toastify";
 
 const CreateCampaign = () => {
-  
   const [openModal, setOpenModal] = useState(false);
   const sendData = async (data) => {
-    console.log(data);
     try {
       const res = await axios.post(
         "https://infinion-test-int-test.azurewebsites.net/api/Campaign",
@@ -16,6 +15,7 @@ const CreateCampaign = () => {
       );
       if (res.status === 200 || res.status === 201) {
         setOpenModal(true);
+        toast.done("gdh")
       } else {
         console.log(res);
       }

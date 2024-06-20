@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import CampaignForm from "@/components/CampaignForm";
+import CampaignForm from "@/components/campaign-form";
 import DeleteCampaign from "../DeleteCampaign";
 import axios from "axios";
 import Modal from "@/components/Modal";

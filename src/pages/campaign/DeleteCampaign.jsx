@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useNavigate } from 'react-router-dom';
 
 const DeleteCampaign = ({id, openDeleteModal, setOpenDeleteModal}) => {
-
-    const deleteCampaign = async () => {
+const navigate = useNavigate()
+    const deleteHandler = async () => {
         try {
           const res = await axios.delete(
             `https://infinion-test-int-test.azurewebsites.net/api/Campaign/${id}`,
@@ -16,11 +17,13 @@ const DeleteCampaign = ({id, openDeleteModal, setOpenDeleteModal}) => {
             }
           );
     
-          if (res.status === 200 || res.status === 201) {
-            console.log(res);
-            // setOpenModal(true);
+          if (res.status === 200 || res.status === 204) {
+            alert("Campaign deleted!")
+            setOpenDeleteModal(false);
+            navigate("/");
           } else {
             console.log(res);
+            alert('No network now, refresh and retry!')
           }
         } catch (error) {
           console.log(error);
@@ -51,7 +54,7 @@ const DeleteCampaign = ({id, openDeleteModal, setOpenDeleteModal}) => {
             Cancel
           </Button>
           <Button
-            onClick={deleteCampaign}
+            onClick={deleteHandler}
             className="w-[126px]  flex items-center justify-center border border-[#990000] h-10 bg-[#990000] text-white hover:bg-[#990000]"
           >
             {" "}

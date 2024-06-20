@@ -1,44 +1,28 @@
-import { CalendarDays } from "lucide-react";
-import { useState } from "react";
-import Datepicker from "react-tailwindcss-datepicker";
+import { CalendarDays, ChevronDown } from "lucide-react";
 import ExportIcon from "../../assets/svg/ExportIcon.svg";
 import SearchIcon from "../../assets/svg/BigSearch.svg";
 import PlusIcon from "../../assets/svg/PlusIcon.svg";
 import { Link } from "react-router-dom";
 
 const Overview = () => {
-  const [value, setValue] = useState({
-    startDate: new Date(),
-    endDate: new Date().setMonth(11),
-  });
-
-  const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue);
-    setValue(newValue);
-  };
+ 
+  
 
   return (
     <div className="px-[85px]">
       <div className="flex items-center justify-between mt-[36px] ">
         <h1 className="font-bold text-[24px] text-primary ">Overview</h1>
         <div className="flex items-center">
-          <div className="flex items-center py-2  rounded w-[320px] border">
-            <h4 className="flex items-center w-[109px] text-[14px]  whitespace-nowrap border-r px-2">
-              <CalendarDays className="text-primary" />
+          <div className="flex items-center py-2 text-[12px] rounded w-[320px] border">
+            <h4 className="flex items-center w-[109px]   whitespace-nowrap border-r px-2">
+              <CalendarDays className="text-primary h-5 mr-2" />
               Date Range
             </h4>
-            <Datepicker
-              value={value}
-              // placeholder={"Nov 1, 2022 - Nov 7, 2022."} 
-              displayFormat={"MM/DD/YYYY"}
-              containerClassName=" relative pl-2 w-full"
-              toggleClassName="  h-4  absolute right-2 top-[3px]"
-              onChange={handleValueChange}
-              separator={"-"}
-              inputClassName={
-                "text-[13px] focus:border-none focus:outline-none"
-              }
-            />
+           <span className="px-2 flex  items-center justify-between w-full">
+
+            Nov 1, 2022 - Nov 7, 2022.
+            <ChevronDown  className="text-primary"/>
+           </span>
           </div>
           <h4 className="flex items-center gap-2 text-primary bg-[#F0F4F4] rounded w-fit py-[10px] px-8 ml-3">
             <img src={ExportIcon} alt="export icon" />

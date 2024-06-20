@@ -8,11 +8,7 @@ import DataTable from "react-data-table-component";
 import { Eye, SquarePen, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import DeleteCampaign from "./DeleteCampaign";
-
-const paginationComponentOptions = {
-  rowsPerPageText: "showing 10 of 40 results",
-  // rangeSeparatorText: "of aijd"
-};
+import { SkeletonComponent } from "@/components/SkeletonComponent";
 
 const customStyles = {
   headRow: {
@@ -26,18 +22,22 @@ const customStyles = {
 
 const Campaign = () => {
   const [data, setData] = useState([]);
-  const [campaignId, setCampaignId] = useState();
+  const [campaignId, setCampaignId] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const navigate = useNavigate();
   const inActiveUsers = data.filter((i) => i.campaignStatus === "Inactive");
   const activeUsers = data.filter((i) => i.campaignStatus === "active");
-  const numInActiveUsers = inActiveUsers.length
-  const numActiveUsers = activeUsers.length
-  const totalNumUsers = data.length
+  const numInActiveUsers = inActiveUsers.length;
+  const numActiveUsers = activeUsers.length;
+  const totalNumUsers = data.length;
+
   const columns = [
     {
       name: <h4 className="text-[#455454] font-[900]">S/N</h4>,
-      selector: (row) => row.id,
+      selector: (row) => 
+       row.index
+      
+      ,
       width: "175px",
     },
     {
@@ -73,15 +73,15 @@ const Campaign = () => {
     },
     {
       name: <h4 className="text-[#455454] font-[900]">Actions</h4>,
-      ignoreRowClick: true,
       button: true,
+      ignoreRowClick: true,
       cell: (row) => (
         <div className="flex gap-6">
           <Eye
             className=" cursor-pointer"
             onClick={() =>
               navigate("/campaign-information", {
-                state: { ...row, view: true },
+                state: { ...row },
               })
             }
           />
@@ -89,7 +89,7 @@ const Campaign = () => {
             className=" cursor-pointer"
             onClick={() =>
               navigate("/campaign-information", {
-                state: { ...row, edit: true },
+                state: { ...row },
               })
             }
           />
@@ -98,34 +98,37 @@ const Campaign = () => {
             onClick={() => {
               setCampaignId(row.id);
               setOpenDeleteModal(true);
-              console.log(row);
             }}
           />
         </div>
       ),
     },
   ];
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
           "https://infinion-test-int-test.azurewebsites.net/api/Campaign"
         );
-        console.log(res);
         if (res.status === 200 || res.status === 201) {
-          setData(res.data);
+          const formattedData = res.data?.map((item, index) => {
+            return{
+              ...item,
+            index: index + 1
+            }
+          })
+          setData(formattedData);
         } else {
-          console.log(res);
+          alert("err");
         }
       } catch (error) {
-        console.log(error);
+        alert("error");
       }
     };
 
     fetchData();
   }, []);
-
+  
   return (
     <Layout>
       <div className="px-[85px] py-9">
@@ -152,13 +155,15 @@ const Campaign = () => {
             </div>
           </div>
         </header>
+
         <DataTable
           columns={columns}
           data={data}
           pagination
           customStyles={customStyles}
-          paginationComponentOptions={paginationComponentOptions}
+          // paginationComponentOptions={paginationComponentOptions}
           persistTableHead
+          noDataComponent={<SkeletonComponent />}
         />
       </div>
       <DeleteCampaign
