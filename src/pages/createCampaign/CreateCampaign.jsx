@@ -6,6 +6,7 @@ import Modal from "@/components/Modal";
 import { toast } from "react-toastify";
 
 const CreateCampaign = () => {
+  window.scrollTo(0, 0);
   const [openModal, setOpenModal] = useState(false);
   const sendData = async (data) => {
     try {
@@ -25,13 +26,12 @@ const CreateCampaign = () => {
   };
   return (
     <Layout>
-      <div className="px-[85px] py-9">
+    
         <h1 className="font-[900] text-[24px] text-primary ">
           Create New Campaign
         </h1>
 
         <CampaignForm sendData={sendData} />
-      </div>
       <Modal openModal={openModal}
       setOpenModal={setOpenModal}
       content={'Campaign Successfully Created'}

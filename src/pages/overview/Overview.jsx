@@ -5,12 +5,12 @@ import PlusIcon from "../../assets/svg/PlusIcon.svg";
 import { Link } from "react-router-dom";
 
 const Overview = () => {
- 
+  window.scrollTo(0, 0);
   
 
   return (
-    <div className="px-[85px]">
-      <div className="flex items-center justify-between mt-[36px] ">
+    <>
+      <div className="flex items-center justify-between ">
         <h1 className="font-bold text-[24px] text-primary ">Overview</h1>
         <div className="flex items-center">
           <div className="flex items-center py-2 text-[12px] rounded w-[320px] border">
@@ -30,7 +30,7 @@ const Overview = () => {
           </h4>
         </div>
       </div>
-        <div className="my-[119px] mx-auto w-fit">
+        <div className="mt-[119px] mb-36 mx-auto w-fit">
           <img src={SearchIcon} alt="search icon" className="" />
           <p className="mt-[44px] font-semibold">No activity yet. Create a new campaign to get started</p>
           <Link
@@ -40,8 +40,8 @@ const Overview = () => {
             <img src={PlusIcon} alt="new campaign icon" />
             New Campaign
           </Link>
-        </div>
     </div>
+    </>
   );
 };
 

@@ -12,10 +12,9 @@ import { Settings } from "lucide-react";
 const Nav = () => {
   const currentPath= window.location.pathname
   return (
-    <nav className="bg-[#F0F4F4] max-w-[292px] w-full pt-[31px] pb-[170px]">
-      <div className=" sticky bottom-7">
+      <section className="bg-[#F0F4F4] max-w-[292px] w-full pt-[31px] overflow-y-scroll  pb-12 fixed bottom-0 top-0   left-0  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 
-      <div className="flex items-center gap-4 ml-[40px] mb-[52px]">
+      <div className="flex items-center gap-4 ml-10  mb-[52px]">
         <Link to={"/"}>
           <img src={ScrutzLogo} alt="Scrutz logo" />
         </Link>
@@ -23,7 +22,7 @@ const Nav = () => {
           <Link to={"/"}>Scrutz</Link>
         </h1>
       </div>
-      <ul className=" text-[#455454] w-fit ml-[40px] mb-[82px]">
+      <ul className=" text-[#455454] w-fit ml-10 mb-[82px]">
         <li>
           <Link
             to={"/create-campaign"}
@@ -73,9 +72,8 @@ const Nav = () => {
         </p>
         <Button className=' border border-primary bg-white text-primary mt-[16px] hover:text-white'>Get help</Button>
       </div>
-      </div>
+      </section>
 
-    </nav>
   );
 };
 

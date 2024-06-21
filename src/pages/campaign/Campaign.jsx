@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import Layout from "@/components/Layout";
 import SearchBox from "@/components/Search";
 import axios from "axios";
@@ -18,9 +17,11 @@ const customStyles = {
       color: "black",
     },
   },
+ 
 };
 
 const Campaign = () => {
+  window.scrollTo(0, 0);
   const [data, setData] = useState([]);
   const [campaignId, setCampaignId] = useState(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -34,10 +35,7 @@ const Campaign = () => {
   const columns = [
     {
       name: <h4 className="text-[#455454] font-[900]">S/N</h4>,
-      selector: (row) => 
-       row.index
-      
-      ,
+      selector: (row) => row.index,
       width: "175px",
     },
     {
@@ -112,11 +110,11 @@ const Campaign = () => {
         );
         if (res.status === 200 || res.status === 201) {
           const formattedData = res.data?.map((item, index) => {
-            return{
+            return {
               ...item,
-            index: index + 1
-            }
-          })
+              index: index + 1,
+            };
+          });
           setData(formattedData);
         } else {
           alert("err");
@@ -128,44 +126,42 @@ const Campaign = () => {
 
     fetchData();
   }, []);
-  
+
   return (
     <Layout>
-      <div className="px-[85px] py-9">
-        <h1 className="font-[900] text-[24px] mb-6 text-primary ">
-          ALL Campaign
-        </h1>
-        <header className="flex justify-between mb-[37px]">
-          <div className="flex gap-4">
-            <h4 className="p-[10px] border border-primary rounded text-primary w-fit">
-              All ({totalNumUsers})
-            </h4>
-            <h4 className="p-[10px] border border-primary rounded text-primary w-fit">
-              Inactive ({numInActiveUsers})
-            </h4>
-            <h4 className="p-[10px] border border-primary rounded text-primary w-fit">
-              Active ({numActiveUsers})
-            </h4>
+      <h1 className="font-[900] text-[24px] mb-6 text-primary ">
+        ALL Campaign
+      </h1>
+      <header className="flex justify-between mb-[37px]">
+        <div className="flex gap-4">
+          <h4 className="p-[10px] border border-primary rounded text-primary w-fit">
+            All ({totalNumUsers})
+          </h4>
+          <h4 className="p-[10px] border border-primary rounded text-primary w-fit">
+            Inactive ({numInActiveUsers})
+          </h4>
+          <h4 className="p-[10px] border border-primary rounded text-primary w-fit">
+            Active ({numActiveUsers})
+          </h4>
+        </div>
+        <div className="flex">
+          <SearchBox placeholder="search" className={"max-w-[225px]"} />
+          <div className=" border  rounded flex items-center justify-between ml-7 whitespace-nowrap px-3 max-w-[227px] w-full">
+            <span className="text-gray-400">Filter by date,</span>
+            <ChevronDown />
           </div>
-          <div className="flex">
-            <SearchBox placeholder="search" className={"max-w-[225px]"} />
-            <div className=" border  rounded flex items-center justify-between ml-7 whitespace-nowrap px-3 max-w-[227px] w-full">
-              <span className="text-gray-400">Filter by date,</span>
-              <ChevronDown />
-            </div>
-          </div>
-        </header>
+        </div>
+      </header>
 
-        <DataTable
-          columns={columns}
-          data={data}
-          pagination
-          customStyles={customStyles}
-          // paginationComponentOptions={paginationComponentOptions}
-          persistTableHead
-          noDataComponent={<SkeletonComponent />}
-        />
-      </div>
+      <DataTable
+        columns={columns}
+        data={data}
+        pagination
+        customStyles={customStyles}
+        // paginationComponentOptions={paginationComponentOptions}
+        persistTableHead
+        noDataComponent={<SkeletonComponent />}
+      />
       <DeleteCampaign
         id={campaignId}
         openDeleteModal={openDeleteModal}

@@ -8,6 +8,7 @@ import axios from "axios";
 import Modal from "@/components/Modal";
 
 const CampaignInformation = () => {
+  window.scrollTo(0, 0);
   let location = useLocation();
   const {
     campaignName,
@@ -54,7 +55,6 @@ const CampaignInformation = () => {
 
   return (
     <Layout>
-      <div className="px-[85px] py-9">
         <Header
           campaignStatus={campaignStatus}
           heading={"Campaign Information"}
@@ -83,7 +83,6 @@ const CampaignInformation = () => {
       />
        
      
-      </div>
      
     </Layout>
   );
