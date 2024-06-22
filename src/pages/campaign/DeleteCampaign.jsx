@@ -1,38 +1,27 @@
 import { Button } from "@/components/ui/button";
-import axios from "axios";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useNavigate } from "react-router-dom";
-import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { deleteData } from "@/lib/api";
+import { ToastContainer, toast } from "react-toastify";
 
 const DeleteCampaign = ({ id, openDeleteModal, setOpenDeleteModal }) => {
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
   const navigate = useNavigate();
-  const deleteHandler = async () => {
+  
+  const deleteHandler = () => {
     setIsBtnDisabled(true);
-    try {
-      const res = await axios.delete(
-        `https://infinion-test-int-test.azurewebsites.net/api/Campaign/${id}`,
-        {
-          headers: {
-            accept: "*/*",
-          },
-        }
-      );
-
+    deleteData(id).then((res) => {
       if (res.status === 200 || res.status === 204) {
-        alert("Campaign deleted!");
+        toast("No network now, refresh and retry!");
         setOpenDeleteModal(false);
+        setIsBtnDisabled(false);
         navigate("/");
       } else {
-        console.log(res);
-        alert("No network now, refresh and retry!");
-        setIsBtnDisabled(true);
+        toast.error("No network now, refresh and retry!");
+        setIsBtnDisabled(false);
       }
-    } catch (error) {
-      console.log(error);
-      setIsBtnDisabled(true);
-    }
+    });
   };
   const avoidDefaultDomBehavior = (e) => {
     e.preventDefault();
@@ -50,7 +39,7 @@ const DeleteCampaign = ({ id, openDeleteModal, setOpenDeleteModal }) => {
         <div className="my-[72px] mx-auto w-fit flex items-center flex-col">
           <p className="mb-[57px] font-semibold text-[18px] ">Stop Campaign</p>
           <p className="mb-[57px]  text-center">
-            <span className="block">
+            <span className="block" >
               Are You sure you want to delete MTN campaign?
             </span>
             <span>This action cannot be undone.</span>
@@ -71,6 +60,7 @@ const DeleteCampaign = ({ id, openDeleteModal, setOpenDeleteModal }) => {
               {" "}
               Delete Campaign
             </Button>
+      <ToastContainer />
           </div>
         </div>
       </DialogContent>

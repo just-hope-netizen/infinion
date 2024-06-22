@@ -8,6 +8,8 @@ import { Eye, SquarePen, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import DeleteCampaign from "./DeleteCampaign";
 import { SkeletonComponent } from "@/components/SkeletonComponent";
+import { fetchData } from "@/lib/api";
+import { toast } from "react-toastify";
 
 const customStyles = {
   headRow: {
@@ -36,17 +38,17 @@ const Campaign = () => {
     {
       name: <h4 className="text-[#455454] font-[900]">S/N</h4>,
       selector: (row) => row.index,
-      width: "175px",
+      width: "150px",
     },
     {
       name: <h4 className="text-[#455454] font-[900]">Campaign Name</h4>,
       selector: (row) => row.campaignName,
-      width: "175px",
+      width: "170px",
     },
     {
       name: <h4 className="text-[#455454] font-[900]">Start Date</h4>,
       selector: (row) => new Date(row.startDate).toLocaleDateString("en-GB"),
-      width: "175px",
+      width: "170px",
     },
     {
       name: <h4 className="text-[#455454] font-[900]">Status</h4>,
@@ -72,6 +74,7 @@ const Campaign = () => {
     {
       name: <h4 className="text-[#455454] font-[900]">Actions</h4>,
       button: true,
+       width: "175px",
       ignoreRowClick: true,
       cell: (row) => (
         <div className="flex gap-6">
@@ -103,28 +106,19 @@ const Campaign = () => {
     },
   ];
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(
-          "https://infinion-test-int-test.azurewebsites.net/api/Campaign"
-        );
-        if (res.status === 200 || res.status === 201) {
-          const formattedData = res.data?.map((item, index) => {
-            return {
-              ...item,
-              index: index + 1,
-            };
-          });
-          setData(formattedData);
-        } else {
-          alert("err");
-        }
-      } catch (error) {
-        alert("error");
-      }
-    };
-
-    fetchData();
+    fetchData().then(res =>  {
+      if (res.status === 200 || res.status === 201) {
+      const formattedData = res.data?.map((item, index) => {
+        return {
+          ...item,
+          index: index + 1,
+        };
+      });
+      setData(formattedData);
+    } else {
+      toast("error, try again later");
+    }});
+ 
   }, []);
 
   return (

@@ -34,8 +34,10 @@ const CampaignForm = ({
     dailyDigest: dailyDigest || "",
     digestCampaign: digestCampaign || true,
     // endDate: endDate,
-    linkedKeywords: linkedKeywords,
   });
+  const [linkedWordsValue, setLinkedWordsValue] = useState(
+    linkedKeywords || []
+  );
 
   const handleFormData = (e) => {
     setFormData({
@@ -47,7 +49,6 @@ const CampaignForm = ({
   const onSubmit = (e) => {
     e.preventDefault();
     setBtnDisabled(true);
-
     setDateValidate({
       startDateError: true,
       endDateError: true,
@@ -68,12 +69,12 @@ const CampaignForm = ({
         ? true
         : false;
 
-    if (typeof formData.linkedKeywords === "string") {
-      const linkedKeywords = formData.linkedKeywords.split(/\s+/);
+    if (!id) {
+     
       const data = {
         ...formData,
         digestCampaign: formattedDigestCampaign,
-        linkedKeywords,
+        linkedKeywords: linkedWordsValue,
         startDate: formattedStartDate,
         endDate: formattedEndDate,
       };
@@ -83,7 +84,7 @@ const CampaignForm = ({
       const data = {
         id,
         ...formData,
-        linkedKeywords,
+        linkedKeywords: linkedWordsValue,
         digestCampaign: formattedDigestCampaign,
         startDate: formattedStartDate,
         endDate: formattedEndDate,
@@ -115,8 +116,9 @@ const CampaignForm = ({
         <DigestCampaign formData={formData} setFormData={setFormData} id={id} />
 
         <LinkedKeywords
-          linkedKeywords={formData.linkedKeywords}
-          handleFormData={handleFormData}
+          linkedWordsValue={linkedWordsValue}
+          setLinkedWordsValue={setLinkedWordsValue}
+          // handleFormData={handleFormData}
         />
       </div>
 

@@ -3,39 +3,37 @@ import CampaignForm from "@/components/campaign-form/index";
 import axios from "axios";
 import { useState } from "react";
 import Modal from "@/components/Modal";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { postData } from "@/lib/api";
 
 const CreateCampaign = () => {
   window.scrollTo(0, 0);
   const [openModal, setOpenModal] = useState(false);
-  const sendData = async (data) => {
-    try {
-      const res = await axios.post(
-        "https://infinion-test-int-test.azurewebsites.net/api/Campaign",
-        data
-      );
+  const postHandler = (data) => {
+    postData(data).then((res) => {
       if (res.status === 200 || res.status === 201) {
         setOpenModal(true);
-        toast.done("gdh")
+        toast.done("Campaign Created");
       } else {
-        console.log(res);
+        toast.info(res.message);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    });
   };
+  const notify = () => toast("Wow so easy!");
   return (
     <Layout>
-    
-        <h1 className="font-[900] text-[24px] text-primary ">
-          Create New Campaign
-        </h1>
+      <h1 className="font-[900] text-[24px] text-primary ">
+        Create New Campaign
+        <button onClick={notify}>Notify!</button>
+      </h1>
 
-        <CampaignForm sendData={sendData} />
-      <Modal openModal={openModal}
-      setOpenModal={setOpenModal}
-      content={'Campaign Successfully Created'}
+      <CampaignForm sendData={postHandler} />
+      <Modal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        content={"Campaign Successfully Created"}
       />
+      <ToastContainer />
     </Layout>
   );
 };
